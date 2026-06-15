@@ -45,10 +45,20 @@
     "build": "tsup",
     "typecheck": "pnpm exec tsc --noEmit -p tsconfig.json && pnpm exec tsc --noEmit -p tsconfig.node.json && pnpm exec tsc --noEmit -p tsconfig.browser.json",
     "clean": "node --eval \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
-    "prepack": "pnpm build"
+    "prepack": "pnpm build",
+    "lint": "pnpm exec eslint . --max-warnings=0 --ignore-pattern dist --ignore-pattern node_modules",
+    "lint:fix": "pnpm exec eslint . --fix --max-warnings=0 --ignore-pattern dist --ignore-pattern node_modules",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,mjs,cjs,ts,mts,cts}": "pnpm exec eslint --fix --max-warnings=0 --no-warn-ignored"
   },
   "devDependencies": {
+    "@oryz/eslint-config": "^1.0.1",
     "@types/node": "^24.0.0",
+    "eslint": "^10.5.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.7",
     "tsup": "^8.2.4",
     "typescript": "^5.9.0"
   }
