@@ -1,7 +1,7 @@
 {
-  "name": "fetch-provider-models",
+  "name": "openai-compatible-provider-registry",
   "version": "0.0.0",
-  "description": "Environment-isolated package scaffold for fetching provider models.",
+  "description": "Registry metadata and fetch helper for OpenAI-compatible provider model list APIs.",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -10,27 +10,9 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "browser": {
-        "import": "./dist/browser/index.js",
-        "require": "./dist/browser/index.cjs"
-      },
-      "node": {
-        "import": "./dist/node/index.js",
-        "require": "./dist/node/index.cjs"
-      },
       "import": "./dist/index.js",
       "require": "./dist/index.cjs",
       "default": "./dist/index.js"
-    },
-    "./node": {
-      "types": "./dist/node/index.d.ts",
-      "import": "./dist/node/index.js",
-      "require": "./dist/node/index.cjs"
-    },
-    "./browser": {
-      "types": "./dist/browser/index.d.ts",
-      "import": "./dist/browser/index.js",
-      "require": "./dist/browser/index.cjs"
     },
     "./package.json": "./package.json"
   },
@@ -43,7 +25,7 @@
   "packageManager": "pnpm@10.33.2",
   "scripts": {
     "build": "tsup",
-    "typecheck": "pnpm exec tsc --noEmit -p tsconfig.json && pnpm exec tsc --noEmit -p tsconfig.node.json && pnpm exec tsc --noEmit -p tsconfig.browser.json",
+    "typecheck": "pnpm exec tsc --noEmit -p tsconfig.json",
     "clean": "node --eval \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
     "prepack": "pnpm build",
     "lint": "pnpm exec eslint . --max-warnings=0 --ignore-pattern dist --ignore-pattern node_modules",
