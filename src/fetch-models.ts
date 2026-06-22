@@ -3,17 +3,18 @@ import type {
   FetchProviderModelsOptions,
   FetchProviderModelsResult,
   ProviderId,
-  ProviderModel
+  ProviderModel,
 } from "./types";
-import { isRecord, joinUrl, readOptionalNumber, readOptionalString } from "./utils";
-
-type ModelsResponse = {
-  data: unknown;
-};
+import {
+  isRecord,
+  joinUrl,
+  readOptionalNumber,
+  readOptionalString,
+} from "./utils";
 
 export async function fetchModels(
   provider: ProviderId,
-  options: FetchProviderModelsOptions
+  options: FetchProviderModelsOptions,
 ): Promise<FetchProviderModelsResult> {
   const entry = getProvider(provider);
 
@@ -24,7 +25,9 @@ export async function fetchModels(
   const fetchImpl = options.fetch ?? globalThis.fetch;
 
   if (typeof fetchImpl !== "function") {
-    throw new Error(`No fetch implementation available for provider: ${provider}`);
+    throw new Error(
+      `No fetch implementation available for provider: ${provider}`,
+    );
   }
 
   const baseUrl = options.baseUrl ?? entry.baseUrl;
@@ -33,30 +36,41 @@ export async function fetchModels(
     method: "GET",
     headers: {
       Accept: "application/json",
-      Authorization: `Bearer ${options.apiKey}`
+      Authorization: `Bearer ${options.apiKey}`,
     },
-    signal: options.signal
+    signal: options.signal,
   });
 
   if (!response.ok) {
     throw new Error(
-      `Failed to fetch models for provider "${provider}": ${response.status} ${response.statusText}`
+      `Failed to fetch models for provider "${provider}": ${response.status} ${response.statusText}`,
     );
   }
 
-  const payload = (await response.json()) as ModelsResponse;
-
-  if (!isRecord(payload) || !Array.isArray(payload.data)) {
-    throw new Error(`Invalid models response for provider "${provider}": expected data array`);
-  }
+  const payload = (await response.json()) as unknown;
+  const models = extractModelItems(payload, provider);
 
   return {
     provider,
     baseUrl,
     modelsUrl,
     fetchedAt: new Date().toISOString(),
-    models: payload.data.flatMap((model) => normalizeModel(model))
+    models: models.flatMap((model) => normalizeModel(model)),
   };
+}
+
+function extractModelItems(payload: unknown, provider: ProviderId): unknown[] {
+  if (Array.isArray(payload)) {
+    return payload;
+  }
+
+  if (isRecord(payload) && Array.isArray(payload.data)) {
+    return payload.data;
+  }
+
+  throw new Error(
+    `Invalid models response for provider "${provider}": expected top-level array or object with data array`,
+  );
 }
 
 function normalizeModel(model: unknown): ProviderModel[] {
@@ -65,12 +79,12 @@ function normalizeModel(model: unknown): ProviderModel[] {
   }
 
   const id = readOptionalString(model.id);
+  const ownedBy =
+    readOptionalString(model.owned_by) ?? readOptionalString(model.ownedBy);
 
   if (!id) {
     return [];
   }
-
-  const ownedBy = readOptionalString(model.owned_by) ?? readOptionalString(model.ownedBy);
 
   return [
     {
@@ -78,7 +92,7 @@ function normalizeModel(model: unknown): ProviderModel[] {
       object: readOptionalString(model.object),
       created: readOptionalNumber(model.created),
       ownedBy,
-      raw: model
-    }
+      raw: model,
+    },
   ];
 }
