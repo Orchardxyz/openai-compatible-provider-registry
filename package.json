@@ -26,10 +26,13 @@
   "scripts": {
     "build": "tsup",
     "typecheck": "pnpm exec tsc --noEmit -p tsconfig.json",
+    "site:dev": "pnpm --dir site dev",
+    "site:build": "pnpm --dir site build",
+    "site:typecheck": "pnpm --dir site typecheck",
     "clean": "node --eval \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
     "prepack": "pnpm build",
-    "lint": "pnpm exec eslint . --max-warnings=0 --ignore-pattern dist --ignore-pattern node_modules",
-    "lint:fix": "pnpm exec eslint . --fix --max-warnings=0 --ignore-pattern dist --ignore-pattern node_modules",
+    "lint": "pnpm exec eslint . --max-warnings=0 --ignore-pattern dist --ignore-pattern site/dist --ignore-pattern node_modules",
+    "lint:fix": "pnpm exec eslint . --fix --max-warnings=0 --ignore-pattern dist --ignore-pattern site/dist --ignore-pattern node_modules",
     "prepare": "husky"
   },
   "lint-staged": {
