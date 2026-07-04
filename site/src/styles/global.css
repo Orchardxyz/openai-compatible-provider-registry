@@ -172,13 +172,16 @@ pre,
   color: var(--ink);
 }
 
-.theme-toggle__button--active {
+html[data-theme="light"] .theme-toggle__button[data-theme-choice="light"],
+html[data-theme="dark"] .theme-toggle__button[data-theme-choice="dark"] {
   background: var(--accent);
   color: var(--bg-strong);
 }
 
-.theme-toggle__button--active:hover,
-.theme-toggle__button--active:focus-visible {
+html[data-theme="light"] .theme-toggle__button[data-theme-choice="light"]:hover,
+html[data-theme="light"] .theme-toggle__button[data-theme-choice="light"]:focus-visible,
+html[data-theme="dark"] .theme-toggle__button[data-theme-choice="dark"]:hover,
+html[data-theme="dark"] .theme-toggle__button[data-theme-choice="dark"]:focus-visible {
   background: var(--accent);
   color: var(--bg-strong);
 }

@@ -4,3 +4,4 @@ dist
 docs/plans/*
 docs/reviews/*
 .pnpm-store/
+site/.astro/

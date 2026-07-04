@@ -2,10 +2,22 @@ import {
   PROVIDERS,
   getProvider,
   type FetchProviderModelsResult,
-  type ProviderId,
+  type ProviderId
 } from "@registry/index";
 
-import type { UiErrorState } from "./types";
+export type UiErrorKind =
+  | "auth"
+  | "cors"
+  | "network"
+  | "response"
+  | "unknown";
+
+export type UiErrorState = {
+  kind: UiErrorKind;
+  title: string;
+  message: string;
+  detail?: string;
+};
 
 export const PROVIDER_LIST = [...PROVIDERS];
 
@@ -53,7 +65,7 @@ export function classifyError(error: unknown): UiErrorState {
       title: "Browser request blocked or interrupted",
       message:
         "The request did not complete in the browser. This often means a CORS policy block, a local network interruption, or an extension/proxy conflict.",
-      detail: error.message,
+      detail: error.message
     };
   }
 
@@ -66,7 +78,7 @@ export function classifyError(error: unknown): UiErrorState {
         title: "Authentication was rejected",
         message:
           "The provider responded, but the supplied key was rejected or does not have access to list models.",
-        detail: message,
+        detail: message
       };
     }
 
@@ -79,7 +91,7 @@ export function classifyError(error: unknown): UiErrorState {
         title: "Response shape did not match the expected /models format",
         message:
           "The endpoint answered, but the payload was not the OpenAI-style model list shape this playground expects.",
-        detail: message,
+        detail: message
       };
     }
 
@@ -89,7 +101,7 @@ export function classifyError(error: unknown): UiErrorState {
         title: "The request could not reach the provider",
         message:
           "The browser could not complete the request. Check the selected base URL and local network environment.",
-        detail: message,
+        detail: message
       };
     }
 
@@ -98,14 +110,14 @@ export function classifyError(error: unknown): UiErrorState {
       title: "The request failed",
       message:
         "The request did not complete successfully. Review the detail below and compare with the provider docs.",
-      detail: message,
+      detail: message
     };
   }
 
   return {
     kind: "unknown",
     title: "The request failed",
-    message: "An unexpected non-Error value was thrown during the request.",
+    message: "An unexpected non-Error value was thrown during the request."
   };
 }
 
