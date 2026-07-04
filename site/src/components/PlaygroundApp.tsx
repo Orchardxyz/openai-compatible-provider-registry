@@ -1,8 +1,8 @@
 import { useEffect, useMemo } from "preact/hooks";
-import {
-  createPlaygroundActions,
-  createPlaygroundState
-} from "../state/playground";
+import { createPlaygroundActions, createPlaygroundState } from "../state/playground";
+import type { SiteMessages } from "../i18n/messages";
+import type { SiteLocale } from "../i18n/config";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { ProviderList } from "./ProviderList";
 import { RequestWorkbench } from "./RequestWorkbench";
 import { ResultsPanel } from "./ResultsPanel";
@@ -11,9 +11,18 @@ import { ThemeToggle } from "./ThemeToggle";
 const PACKAGE_NAME = "openai-compatible-provider-registry";
 const GITHUB_URL = "https://github.com/Orchardxyz/openai-compatible-provider-registry";
 
-export function PlaygroundApp() {
-  const state = useMemo(createPlaygroundState, []);
-  const actions = useMemo(() => createPlaygroundActions(state), [state]);
+type PlaygroundAppProps = {
+  locale: SiteLocale;
+  messages: SiteMessages;
+  basePath: string;
+};
+
+export function PlaygroundApp({ locale, messages, basePath }: PlaygroundAppProps) {
+  const state = useMemo(() => createPlaygroundState(messages), [messages]);
+  const actions = useMemo(
+    () => createPlaygroundActions(state, messages),
+    [state, messages]
+  );
 
   useEffect(() => {
     document.documentElement.dataset.theme = state.theme.value;
@@ -22,12 +31,20 @@ export function PlaygroundApp() {
   return (
     <div class="shell">
       <header class="topbar">
-        <a class="topbar__brand" href="./" aria-label={`${PACKAGE_NAME} home`}>
+        <a class="topbar__brand" href="./" aria-label={messages.brandAriaLabel}>
           {PACKAGE_NAME}
         </a>
         <div class="topbar__actions">
+          <LanguageSwitcher
+            locale={locale}
+            messages={messages}
+            basePath={basePath}
+          />
           <ThemeToggle
             theme={state.theme.value}
+            lightLabel={messages.themeLight}
+            darkLabel={messages.themeDark}
+            ariaLabel={messages.themeSwitcherAriaLabel}
             onSelect={actions.setTheme}
           />
           <a
@@ -35,8 +52,8 @@ export function PlaygroundApp() {
             href={GITHUB_URL}
             target="_blank"
             rel="noreferrer noopener"
-            aria-label="Open GitHub repository"
-            title="GitHub"
+            aria-label={messages.githubAriaLabel}
+            title={messages.githubTitle}
           >
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path
@@ -51,18 +68,16 @@ export function PlaygroundApp() {
       <section class="hero">
         <div class="hero__usage">
           <div class="hero__usage-header">
-            <p class="eyebrow">Usage</p>
-            <p class="hero__usage-note">
-              Same API shape, two common runtime entry points.
-            </p>
+            <p class="eyebrow">{messages.heroEyebrow}</p>
+            <p class="hero__usage-note">{messages.heroUsageNote}</p>
           </div>
           <div class="usage-grid">
             <article class="usage-card">
-              <p class="usage-card__label">Node / Browser ESM</p>
+              <p class="usage-card__label">{messages.usageCardEsmLabel}</p>
               <pre class="usage-card__code">{`import { fetchModels } from "${PACKAGE_NAME}";\n\nconst result = await fetchModels("openai", { apiKey });\nconsole.log(result.models.map((model) => model.id));`}</pre>
             </article>
             <article class="usage-card">
-              <p class="usage-card__label">HTML Script CDN</p>
+              <p class="usage-card__label">{messages.usageCardCdnLabel}</p>
               <pre class="usage-card__code">{`<script type="module">\n  import { fetchModels } from "https://esm.sh/${PACKAGE_NAME}";\n\n  const result = await fetchModels("openai", { apiKey });\n  console.log(result.models);\n</script>`}</pre>
             </article>
           </div>
@@ -74,6 +89,12 @@ export function PlaygroundApp() {
           providerId={state.providerId.value}
           providerQuery={state.providerQuery.value}
           filteredProviders={state.filteredProviders}
+          heading={messages.supportedProviders}
+          filterLabel={messages.filterLabel}
+          filterPlaceholder={messages.filterPlaceholder}
+          docsAriaLabelPrefix={messages.docsAriaLabelPrefix}
+          docsAriaLabelSuffix={messages.docsAriaLabelSuffix}
+          docsTitle={messages.docsTitle}
           onProviderQueryChange={actions.setProviderQuery}
           onProviderSelect={actions.setProvider}
         />
@@ -85,6 +106,17 @@ export function PlaygroundApp() {
           isKeyVisible={state.isKeyVisible.value}
           status={state.status.value}
           statusLabel={state.statusLabel}
+          eyebrow={messages.workbenchEyebrow}
+          providerIdLabel={messages.providerIdLabel}
+          baseUrlLabel={messages.baseUrlLabel}
+          baseUrlPlaceholder={messages.baseUrlPlaceholder}
+          apiKeyLabel={messages.apiKeyLabel}
+          apiKeyPlaceholder={messages.apiKeyPlaceholder}
+          securityNote={messages.securityNote}
+          fetchButton={messages.fetchButton}
+          fetchButtonLoading={messages.fetchButtonLoading}
+          revealButton={messages.revealButton}
+          hideButton={messages.hideButton}
           onBaseUrlChange={actions.setBaseUrl}
           onApiKeyChange={actions.setApiKey}
           onToggleKeyVisibility={actions.toggleKeyVisibility}
@@ -97,6 +129,13 @@ export function PlaygroundApp() {
             latestResult={state.latestResult.value}
             latestError={state.latestError.value}
             rawJsonPreview={state.rawJsonPreview}
+            tabModels={messages.tabModels}
+            tabRaw={messages.tabRaw}
+            emptyTitle={messages.emptyTitle}
+            emptyBody={messages.emptyBody}
+            tableId={messages.tableId}
+            tableOwnedBy={messages.tableOwnedBy}
+            tableCreated={messages.tableCreated}
             onTabChange={actions.setActiveTab}
           />
         </RequestWorkbench>

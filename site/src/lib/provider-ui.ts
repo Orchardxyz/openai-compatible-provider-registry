@@ -4,6 +4,7 @@ import {
   type FetchProviderModelsResult,
   type ProviderId
 } from "@registry/index";
+import type { ErrorCopy, StatusLabels } from "../i18n/messages";
 
 export type UiErrorKind =
   | "auth"
@@ -33,16 +34,19 @@ export function getProviderDocsUrl(providerId: ProviderId): string {
   return getProvider(providerId)?.docsUrl ?? "#";
 }
 
-export function getStatusLabel(status: string): string {
+export function getStatusLabel(
+  status: string,
+  labels: StatusLabels
+): string {
   switch (status) {
     case "loading":
-      return "Request in flight";
+      return labels.loading;
     case "success":
-      return "Models loaded";
+      return labels.success;
     case "error":
-      return "Needs attention";
+      return labels.error;
     default:
-      return "Ready for a manual request";
+      return labels.idle;
   }
 }
 
@@ -58,13 +62,12 @@ export function redactApiKey(apiKey: string): string {
   return `${apiKey.slice(0, 3)}...${apiKey.slice(-4)}`;
 }
 
-export function classifyError(error: unknown): UiErrorState {
+export function classifyError(error: unknown, copy: ErrorCopy): UiErrorState {
   if (error instanceof TypeError) {
     return {
       kind: "cors",
-      title: "Browser request blocked or interrupted",
-      message:
-        "The request did not complete in the browser. This often means a CORS policy block, a local network interruption, or an extension/proxy conflict.",
+      title: copy.corsTitle,
+      message: copy.corsMessage,
       detail: error.message
     };
   }
@@ -75,9 +78,8 @@ export function classifyError(error: unknown): UiErrorState {
     if (message.includes("401") || message.includes("403")) {
       return {
         kind: "auth",
-        title: "Authentication was rejected",
-        message:
-          "The provider responded, but the supplied key was rejected or does not have access to list models.",
+        title: copy.authTitle,
+        message: copy.authMessage,
         detail: message
       };
     }
@@ -88,9 +90,8 @@ export function classifyError(error: unknown): UiErrorState {
     ) {
       return {
         kind: "response",
-        title: "Response shape did not match the expected /models format",
-        message:
-          "The endpoint answered, but the payload was not the OpenAI-style model list shape this playground expects.",
+        title: copy.responseTitle,
+        message: copy.responseMessage,
         detail: message
       };
     }
@@ -98,26 +99,24 @@ export function classifyError(error: unknown): UiErrorState {
     if (message.includes("Failed to fetch")) {
       return {
         kind: "network",
-        title: "The request could not reach the provider",
-        message:
-          "The browser could not complete the request. Check the selected base URL and local network environment.",
+        title: copy.networkTitle,
+        message: copy.networkMessage,
         detail: message
       };
     }
 
     return {
       kind: "unknown",
-      title: "The request failed",
-      message:
-        "The request did not complete successfully. Review the detail below and compare with the provider docs.",
+      title: copy.unknownTitle,
+      message: copy.unknownMessage,
       detail: message
     };
   }
 
   return {
     kind: "unknown",
-    title: "The request failed",
-    message: "An unexpected non-Error value was thrown during the request."
+    title: copy.unknownTitle,
+    message: copy.nonErrorMessage
   };
 }
 
@@ -129,9 +128,12 @@ export function formatCreated(value: number | undefined): string {
   return new Date(value * 1000).toISOString().slice(0, 10);
 }
 
-export function formatRawJson(result: FetchProviderModelsResult | null): string {
+export function formatRawJson(
+  result: FetchProviderModelsResult | null,
+  fallback: string
+): string {
   if (!result) {
-    return "No response captured yet.";
+    return fallback;
   }
 
   return JSON.stringify(result.models.map((model) => model.raw), null, 2);

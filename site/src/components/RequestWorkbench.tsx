@@ -11,6 +11,17 @@ type RequestWorkbenchProps = {
   isKeyVisible: boolean;
   status: RequestStatus;
   statusLabel: ReadonlySignal<string>;
+  eyebrow: string;
+  providerIdLabel: string;
+  baseUrlLabel: string;
+  baseUrlPlaceholder: string;
+  apiKeyLabel: string;
+  apiKeyPlaceholder: string;
+  securityNote: string;
+  fetchButton: string;
+  fetchButtonLoading: string;
+  revealButton: string;
+  hideButton: string;
   onBaseUrlChange: (value: string) => void;
   onApiKeyChange: (value: string) => void;
   onToggleKeyVisibility: () => void;
@@ -26,6 +37,17 @@ export function RequestWorkbench({
   isKeyVisible,
   status,
   statusLabel,
+  eyebrow,
+  providerIdLabel,
+  baseUrlLabel,
+  baseUrlPlaceholder,
+  apiKeyLabel,
+  apiKeyPlaceholder,
+  securityNote,
+  fetchButton,
+  fetchButtonLoading,
+  revealButton,
+  hideButton,
   onBaseUrlChange,
   onApiKeyChange,
   onToggleKeyVisibility,
@@ -39,7 +61,7 @@ export function RequestWorkbench({
     <section class="panel panel--workbench">
       <div class="stack">
         <div class="panel__header panel__header--workbench">
-          <p class="panel__eyebrow">Request workbench</p>
+          <p class="panel__eyebrow">{eyebrow}</p>
           <div class="workbench-heading">
             <h2>{providerName}</h2>
             <div class={`status-strip status-strip--${status}`}>
@@ -57,7 +79,7 @@ export function RequestWorkbench({
           }}
         >
           <label class="field">
-            <span class="field__label">Provider ID</span>
+            <span class="field__label">{providerIdLabel}</span>
             <input
               class="field__input field__input--mono"
               value={providerId}
@@ -66,7 +88,7 @@ export function RequestWorkbench({
           </label>
 
           <label class="field">
-            <span class="field__label">Base URL override</span>
+            <span class="field__label">{baseUrlLabel}</span>
             <input
               class="field__input field__input--mono"
               type="url"
@@ -74,7 +96,7 @@ export function RequestWorkbench({
               onInput={(event) =>
                 onBaseUrlChange((event.currentTarget as HTMLInputElement).value)
               }
-              placeholder="https://api.example.com/v1/"
+              placeholder={baseUrlPlaceholder}
               autocomplete="off"
               autocapitalize="off"
               spellcheck={false}
@@ -82,7 +104,7 @@ export function RequestWorkbench({
           </label>
 
           <label class="field">
-            <span class="field__label">Temporary API key</span>
+            <span class="field__label">{apiKeyLabel}</span>
             <div class="key-input">
               <input
                 class="field__input field__input--mono"
@@ -91,7 +113,7 @@ export function RequestWorkbench({
                 onInput={(event) =>
                   onApiKeyChange((event.currentTarget as HTMLInputElement).value)
                 }
-                placeholder="Paste a revocable low-quota test key"
+                placeholder={apiKeyPlaceholder}
                 autocomplete="off"
                 autocapitalize="off"
                 spellcheck={false}
@@ -101,18 +123,15 @@ export function RequestWorkbench({
                 type="button"
                 onClick={onToggleKeyVisibility}
               >
-                {isKeyVisible ? "Hide" : "Reveal"}
+                {isKeyVisible ? hideButton : revealButton}
               </button>
             </div>
           </label>
 
-          <div class="security-note">
-            Sent only to the selected provider over HTTPS. Never stored by
-            this page.
-          </div>
+          <div class="security-note">{securityNote}</div>
 
           <button class="primary-button" type="submit" disabled={isLoading}>
-            {isLoading ? "Fetching models..." : "Fetch Models"}
+            {isLoading ? fetchButtonLoading : fetchButton}
           </button>
         </form>
 

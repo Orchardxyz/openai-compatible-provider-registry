@@ -8,6 +8,13 @@ type ResultsPanelProps = {
   latestResult: FetchProviderModelsResult | null;
   latestError: UiErrorState | null;
   rawJsonPreview: ReadonlySignal<string>;
+  tabModels: string;
+  tabRaw: string;
+  emptyTitle: string;
+  emptyBody: string;
+  tableId: string;
+  tableOwnedBy: string;
+  tableCreated: string;
   onTabChange: (tab: ResultTab) => void;
 };
 
@@ -16,6 +23,13 @@ export function ResultsPanel({
   latestResult,
   latestError,
   rawJsonPreview,
+  tabModels,
+  tabRaw,
+  emptyTitle,
+  emptyBody,
+  tableId,
+  tableOwnedBy,
+  tableCreated,
   onTabChange
 }: ResultsPanelProps) {
   return (
@@ -23,13 +37,13 @@ export function ResultsPanel({
       {latestError ? <ErrorNotice error={latestError} /> : null}
       <div class="tab-row">
         <TabButton
-          label="Normalized Models"
+          label={tabModels}
           value="models"
           isActive={activeTab === "models"}
           onSelect={onTabChange}
         />
         <TabButton
-          label="Raw JSON"
+          label={tabRaw}
           value="raw"
           isActive={activeTab === "raw"}
           onSelect={onTabChange}
@@ -40,7 +54,14 @@ export function ResultsPanel({
         {activeTab === "raw" ? (
           <pre class="code-block">{rawJsonPreview.value}</pre>
         ) : (
-          <ModelsTable latestResult={latestResult} />
+          <ModelsTable
+            latestResult={latestResult}
+            emptyTitle={emptyTitle}
+            emptyBody={emptyBody}
+            tableId={tableId}
+            tableOwnedBy={tableOwnedBy}
+            tableCreated={tableCreated}
+          />
         )}
       </div>
     </section>
@@ -66,19 +87,28 @@ function TabButton({ label, value, isActive, onSelect }: TabButtonProps) {
   );
 }
 
-function ModelsTable({
-  latestResult
-}: {
+type ModelsTableProps = {
   latestResult: FetchProviderModelsResult | null;
-}) {
+  emptyTitle: string;
+  emptyBody: string;
+  tableId: string;
+  tableOwnedBy: string;
+  tableCreated: string;
+};
+
+function ModelsTable({
+  latestResult,
+  emptyTitle,
+  emptyBody,
+  tableId,
+  tableOwnedBy,
+  tableCreated
+}: ModelsTableProps) {
   if (!latestResult) {
     return (
       <div class="empty-state">
-        <p>No model list captured yet.</p>
-        <p>
-          Pick a provider, paste a revocable test key, and send a manual
-          browser-direct request.
-        </p>
+        <p>{emptyTitle}</p>
+        <p>{emptyBody}</p>
       </div>
     );
   }
@@ -88,9 +118,9 @@ function ModelsTable({
       <table class="models-table">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Owned By</th>
-            <th>Created</th>
+            <th>{tableId}</th>
+            <th>{tableOwnedBy}</th>
+            <th>{tableCreated}</th>
           </tr>
         </thead>
         <tbody>

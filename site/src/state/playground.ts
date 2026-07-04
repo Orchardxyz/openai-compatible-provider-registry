@@ -21,6 +21,7 @@ import {
   formatRawJson,
   type UiErrorState
 } from "../lib/provider-ui";
+import type { SiteMessages } from "../i18n/messages";
 
 export type RequestStatus = "idle" | "loading" | "success" | "error";
 export type ResultTab = "models" | "raw";
@@ -91,7 +92,7 @@ function persistTheme(theme: ThemeName): void {
   }
 }
 
-export function createPlaygroundState(): PlaygroundState {
+export function createPlaygroundState(messages: SiteMessages): PlaygroundState {
   const initialProviderId = getDefaultProviderId();
   const initialTheme = readInitialTheme();
   applyTheme(initialTheme);
@@ -122,8 +123,12 @@ export function createPlaygroundState(): PlaygroundState {
       return haystack.includes(query);
     });
   });
-  const statusLabel = computed(() => getStatusLabel(status.value));
-  const rawJsonPreview = computed(() => formatRawJson(latestResult.value));
+  const statusLabel = computed(() =>
+    getStatusLabel(status.value, messages.statusLabels)
+  );
+  const rawJsonPreview = computed(() =>
+    formatRawJson(latestResult.value, messages.rawJsonEmpty)
+  );
 
   return {
     providerId,
@@ -154,7 +159,10 @@ export type PlaygroundActions = {
   submitRequest: () => Promise<void>;
 };
 
-export function createPlaygroundActions(state: PlaygroundState): PlaygroundActions {
+export function createPlaygroundActions(
+  state: PlaygroundState,
+  messages: SiteMessages
+): PlaygroundActions {
   function setProvider(id: ProviderId): void {
     batch(() => {
       state.providerId.value = id;
@@ -210,9 +218,8 @@ export function createPlaygroundActions(state: PlaygroundState): PlaygroundActio
         state.status.value = "error";
         state.latestError.value = {
           kind: "auth",
-          title: "API key required",
-          message:
-            "Enter a temporary test key before sending a browser-direct request."
+          title: messages.errors.authRequiredTitle,
+          message: messages.errors.authRequiredMessage
         };
       });
       return;
@@ -238,7 +245,7 @@ export function createPlaygroundActions(state: PlaygroundState): PlaygroundActio
     } catch (error) {
       batch(() => {
         state.status.value = "error";
-        state.latestError.value = classifyError(error);
+        state.latestError.value = classifyError(error, messages.errors);
       });
     }
   }

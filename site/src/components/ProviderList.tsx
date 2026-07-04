@@ -5,6 +5,12 @@ type ProviderListProps = {
   providerId: ProviderId;
   providerQuery: string;
   filteredProviders: ReadonlySignal<readonly ProviderRegistryEntry[]>;
+  heading: string;
+  filterLabel: string;
+  filterPlaceholder: string;
+  docsAriaLabelPrefix: string;
+  docsAriaLabelSuffix: string;
+  docsTitle: string;
   onProviderQueryChange: (value: string) => void;
   onProviderSelect: (id: ProviderId) => void;
 };
@@ -13,17 +19,23 @@ export function ProviderList({
   providerId,
   providerQuery,
   filteredProviders,
+  heading,
+  filterLabel,
+  filterPlaceholder,
+  docsAriaLabelPrefix,
+  docsAriaLabelSuffix,
+  docsTitle,
   onProviderQueryChange,
   onProviderSelect
 }: ProviderListProps) {
   return (
     <section class="panel panel--providers">
       <div class="panel__header">
-        <h2>Supported Providers ({filteredProviders.value.length})</h2>
+        <h2>{heading} ({filteredProviders.value.length})</h2>
       </div>
 
       <label class="field">
-        <span class="field__label">Filter providers</span>
+        <span class="field__label">{filterLabel}</span>
         <input
           class="field__input"
           type="search"
@@ -31,7 +43,7 @@ export function ProviderList({
           onInput={(event) =>
             onProviderQueryChange((event.currentTarget as HTMLInputElement).value)
           }
-          placeholder="Search by name, id, or base URL"
+          placeholder={filterPlaceholder}
           autocomplete="off"
           autocapitalize="off"
           spellcheck={false}
@@ -44,6 +56,9 @@ export function ProviderList({
             key={entry.id}
             entry={entry}
             isActive={entry.id === providerId}
+            docsAriaLabelPrefix={docsAriaLabelPrefix}
+            docsAriaLabelSuffix={docsAriaLabelSuffix}
+            docsTitle={docsTitle}
             onSelect={onProviderSelect}
           />
         ))}
@@ -55,10 +70,22 @@ export function ProviderList({
 type ProviderCardProps = {
   entry: ProviderRegistryEntry;
   isActive: boolean;
+  docsAriaLabelPrefix: string;
+  docsAriaLabelSuffix: string;
+  docsTitle: string;
   onSelect: (id: ProviderId) => void;
 };
 
-function ProviderCard({ entry, isActive, onSelect }: ProviderCardProps) {
+function ProviderCard({
+  entry,
+  isActive,
+  docsAriaLabelPrefix,
+  docsAriaLabelSuffix,
+  docsTitle,
+  onSelect
+}: ProviderCardProps) {
+  const docsAriaLabel = `${docsAriaLabelPrefix}${entry.displayName}${docsAriaLabelSuffix}`;
+
   return (
     <div class={`provider-card${isActive ? " provider-card--active" : ""}`}>
       <button
@@ -79,8 +106,8 @@ function ProviderCard({ entry, isActive, onSelect }: ProviderCardProps) {
         href={entry.docsUrl}
         target="_blank"
         rel="noreferrer noopener"
-        aria-label={`Open docs for ${entry.displayName}`}
-        title="Open docs"
+        aria-label={docsAriaLabel}
+        title={docsTitle}
       >
         <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
           <path

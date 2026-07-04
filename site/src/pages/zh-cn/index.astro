@@ -1,9 +1,9 @@
 ---
-import SitePage from "../components/SitePage.astro";
-import { DEFAULT_SITE_LOCALE, htmlLangFor } from "../i18n/config";
-import { getMessages } from "../i18n/messages";
+import SitePage from "../../components/SitePage.astro";
+import { htmlLangFor } from "../../i18n/config";
+import { getMessages } from "../../i18n/messages";
 
-const locale = DEFAULT_SITE_LOCALE;
+const locale = "zh-CN";
 const messages = getMessages(locale);
 const htmlLang = htmlLangFor(locale);
 const pageTitle = messages.pageTitle;
