@@ -29,6 +29,10 @@
     "site:dev": "pnpm --dir site dev",
     "site:build": "pnpm --dir site build",
     "site:typecheck": "pnpm --dir site typecheck",
+    "changeset": "pnpm exec changeset",
+    "changeset:version": "pnpm exec changeset version",
+    "changeset:status": "pnpm exec changeset status",
+    "release:check": "pnpm lint && pnpm typecheck && pnpm build",
     "clean": "node --eval \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
     "prepack": "pnpm build",
     "lint": "pnpm exec eslint . --max-warnings=0 --ignore-pattern dist --ignore-pattern site/dist --ignore-pattern node_modules",
@@ -39,6 +43,7 @@
     "*.{js,mjs,cjs,ts,mts,cts}": "pnpm exec eslint --fix --max-warnings=0 --no-warn-ignored"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.31.0",
     "@oryz/eslint-config": "^1.0.1",
     "@types/node": "^24.0.0",
     "eslint": "^10.5.0",

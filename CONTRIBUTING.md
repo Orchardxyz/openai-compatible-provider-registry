@@ -47,6 +47,50 @@ Run the checks that match your change:
 
 You do not need to run every command for every PR if your change is narrowly scoped.
 
+## Versioning And Releases
+
+This repository uses Changesets to manage versions for the root package only.
+The `site/` workspace is private and does not participate in npm releases.
+
+Add a `.changeset/*.md` file when your PR changes any public root-package
+behavior, including:
+
+- public exports or public types
+- provider registry contents or defaults
+- `fetchModels()` behavior or response normalization
+- README-documented behavior promises for the root package
+
+You can skip a changeset when your PR only changes:
+
+- `site/`
+- wording, formatting, or non-behavior documentation
+- maintenance notes under `docs/plans/` or `docs/reviews/`
+
+Version bump guidance before `1.0.0`:
+
+- use `patch` for backward-compatible fixes
+- use `minor` for new capabilities and breaking changes
+
+Maintainers use the following scripts:
+
+- `pnpm changeset`
+- `pnpm changeset:status`
+- `pnpm changeset:version`
+- `pnpm release:check`
+
+Releases are created through a GitHub version PR on `main`. Publishing to npm
+remains a manual maintainer step.
+
+For prerelease cycles, maintainers can use Changesets prerelease mode:
+
+- `pnpm exec changeset pre enter beta`
+- `pnpm exec changeset pre exit`
+
+While prerelease mode is active, Changesets keeps pending `.changeset/*.md`
+files so the final stable release can still consume them. Those files are
+removed when maintainers exit prerelease mode and run `pnpm changeset:version`
+for the stable release line.
+
 ## Pull Request Expectations
 
 - Keep PRs focused and reasonably small.
@@ -56,4 +100,6 @@ You do not need to run every command for every PR if your change is narrowly sco
 
 ## Out Of Scope
 
-This repository does not currently define release automation, formal semantic versioning policy, or heavier governance processes. Please do not add contribution workflow overhead unless the project scope clearly changes.
+This repository keeps release governance intentionally lightweight. Changesets
+and the version PR workflow are the only required release-management layers
+unless the project scope clearly changes.
