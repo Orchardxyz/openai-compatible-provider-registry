@@ -8,8 +8,10 @@ import "@fontsource/ibm-plex-mono/latin-500.css";
 import "../styles/global.css";
 
 import { PlaygroundApp } from "./PlaygroundApp";
+import { highlightSnippetOnServer } from "../lib/code-highlighting.server";
 import type { SiteLocale } from "../i18n/config";
 import type { SiteMessages } from "../i18n/messages";
+import { USAGE_CDN_SNIPPET, USAGE_ESM_SNIPPET } from "../lib/usage-snippets";
 
 interface Props {
   locale: SiteLocale;
@@ -26,6 +28,10 @@ const isProduction = import.meta.env.PROD;
 const cspContent = isProduction ? productionCsp : "";
 const themeStorageKey = "provider-registry-theme";
 const basePath = import.meta.env.BASE_URL;
+const [usageEsmSnippet, usageCdnSnippet] = await Promise.all([
+  highlightSnippetOnServer(USAGE_ESM_SNIPPET, "typescript"),
+  highlightSnippetOnServer(USAGE_CDN_SNIPPET, "html")
+]);
 ---
 
 <!doctype html>
@@ -63,6 +69,8 @@ const basePath = import.meta.env.BASE_URL;
       locale={locale}
       messages={messages}
       basePath={basePath}
+      usageEsmSnippet={usageEsmSnippet}
+      usageCdnSnippet={usageCdnSnippet}
     />
   </body>
 </html>

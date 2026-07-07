@@ -1,7 +1,10 @@
 import type { FetchProviderModelsResult } from "@registry/index";
 import type { ReadonlySignal } from "@preact/signals";
+import { useEffect, useState } from "preact/hooks";
+import type { HighlightedSnippet } from "../lib/code-highlighting";
 import { formatCreated, type UiErrorState } from "../lib/provider-ui";
 import type { ResultTab } from "../state/playground";
+import { CodeBlock } from "./CodeBlock";
 
 type ResultsPanelProps = {
   activeTab: ResultTab;
@@ -32,6 +35,46 @@ export function ResultsPanel({
   tableCreated,
   onTabChange
 }: ResultsPanelProps) {
+  const rawCode = rawJsonPreview.value;
+  const [highlightedRaw, setHighlightedRaw] = useState<{
+    code: string;
+    snippet: HighlightedSnippet;
+  } | null>(null);
+
+  useEffect(() => {
+    if (!latestResult) {
+      setHighlightedRaw(null);
+      return;
+    }
+
+    let isCancelled = false;
+
+    import("../lib/code-highlighting.client")
+      .then(({ highlightSnippetInBrowser }) =>
+        highlightSnippetInBrowser(rawCode, "json")
+      )
+      .then((snippet) => {
+        if (!isCancelled) {
+          setHighlightedRaw({
+            code: rawCode,
+            snippet
+          });
+        }
+      })
+      .catch(() => {
+        if (!isCancelled) {
+          setHighlightedRaw(null);
+        }
+      });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [latestResult, rawCode]);
+
+  const rawSnippet =
+    latestResult && highlightedRaw?.code === rawCode ? highlightedRaw.snippet : null;
+
   return (
     <section class="panel panel--results">
       {latestError ? <ErrorNotice error={latestError} /> : null}
@@ -52,7 +95,11 @@ export function ResultsPanel({
 
       <div class="results-frame">
         {activeTab === "raw" ? (
-          <pre class="code-block">{rawJsonPreview.value}</pre>
+          <CodeBlock
+            snippet={rawSnippet}
+            fallbackText={rawCode}
+            className="code-block"
+          />
         ) : (
           <ModelsTable
             latestResult={latestResult}

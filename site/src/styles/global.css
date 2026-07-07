@@ -324,12 +324,7 @@ p {
 }
 
 .usage-card__code {
-  margin: 0;
   font-size: 0.84rem;
-  line-height: 1.6;
-  white-space: pre-wrap;
-  word-break: break-word;
-  color: var(--ink);
 }
 
 .workspace {
@@ -686,12 +681,191 @@ p {
   word-break: break-all;
 }
 
-.code-block {
+.syntax-block {
   margin: 0;
+  overflow: auto;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--bg-strong) 72%, transparent);
+  border: 1px solid color-mix(in srgb, var(--line) 92%, transparent);
+  padding: 14px 16px;
   white-space: pre-wrap;
   word-break: break-word;
   color: var(--ink);
   line-height: 1.5;
+}
+
+.syntax-block code {
+  display: block;
+  min-width: 100%;
+}
+
+.syntax-line {
+  display: block;
+  min-height: 1.5em;
+}
+
+.syntax-token {
+  color: inherit;
+}
+
+.syntax-token--italic {
+  font-style: italic;
+}
+
+.syntax-token--bold {
+  font-weight: 500;
+}
+
+.syntax-token--underline {
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
+}
+
+.usage-card .syntax-block {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.panel--results .syntax-block {
+  min-height: 300px;
+}
+
+html[data-theme="light"] .syntax-token[data-syntax-light="0550ae"] {
+  color: #0550ae;
+}
+
+html[data-theme="light"] .syntax-token[data-syntax-light="0a3069"] {
+  color: #0a3069;
+}
+
+html[data-theme="light"] .syntax-token[data-syntax-light="116329"] {
+  color: #116329;
+}
+
+html[data-theme="light"] .syntax-token[data-syntax-light="1f2328"] {
+  color: #1f2328;
+}
+
+html[data-theme="light"] .syntax-token[data-syntax-light="57606a"] {
+  color: #57606a;
+}
+
+html[data-theme="light"] .syntax-token[data-syntax-light="6e7781"] {
+  color: #6e7781;
+}
+
+html[data-theme="light"] .syntax-token[data-syntax-light="82071e"] {
+  color: #82071e;
+}
+
+html[data-theme="light"] .syntax-token[data-syntax-light="8250df"] {
+  color: #8250df;
+}
+
+html[data-theme="light"] .syntax-token[data-syntax-light="953800"] {
+  color: #953800;
+}
+
+html[data-theme="light"] .syntax-token[data-syntax-light="cf222e"] {
+  color: #cf222e;
+}
+
+html[data-theme="light"] .syntax-token[data-syntax-light="eaeef2"] {
+  color: #eaeef2;
+}
+
+html[data-theme="light"] .syntax-token[data-syntax-light="f6f8fa"] {
+  color: #f6f8fa;
+}
+
+html[data-theme="light"] .syntax-token[data-syntax-light-bg="0550ae"] {
+  background: #0550ae;
+}
+
+html[data-theme="light"] .syntax-token[data-syntax-light-bg="cf222e"] {
+  background: #cf222e;
+}
+
+html[data-theme="light"] .syntax-token[data-syntax-light-bg="dafbe1"] {
+  background: #dafbe1;
+}
+
+html[data-theme="light"] .syntax-token[data-syntax-light-bg="ffd8b5"] {
+  background: #ffd8b5;
+}
+
+html[data-theme="light"] .syntax-token[data-syntax-light-bg="ffebe9"] {
+  background: #ffebe9;
+}
+
+html[data-theme="dark"] .syntax-token[data-syntax-dark="161b22"] {
+  color: #161b22;
+}
+
+html[data-theme="dark"] .syntax-token[data-syntax-dark="79c0ff"] {
+  color: #79c0ff;
+}
+
+html[data-theme="dark"] .syntax-token[data-syntax-dark="7ee787"] {
+  color: #7ee787;
+}
+
+html[data-theme="dark"] .syntax-token[data-syntax-dark="8b949e"] {
+  color: #8b949e;
+}
+
+html[data-theme="dark"] .syntax-token[data-syntax-dark="a5d6ff"] {
+  color: #a5d6ff;
+}
+
+html[data-theme="dark"] .syntax-token[data-syntax-dark="d2a8ff"] {
+  color: #d2a8ff;
+}
+
+html[data-theme="dark"] .syntax-token[data-syntax-dark="e6edf3"] {
+  color: #e6edf3;
+}
+
+html[data-theme="dark"] .syntax-token[data-syntax-dark="f0f6fc"] {
+  color: #f0f6fc;
+}
+
+html[data-theme="dark"] .syntax-token[data-syntax-dark="ff7b72"] {
+  color: #ff7b72;
+}
+
+html[data-theme="dark"] .syntax-token[data-syntax-dark="ffa198"] {
+  color: #ffa198;
+}
+
+html[data-theme="dark"] .syntax-token[data-syntax-dark="ffa657"] {
+  color: #ffa657;
+}
+
+html[data-theme="dark"] .syntax-token[data-syntax-dark-bg="04260f"] {
+  background: #04260f;
+}
+
+html[data-theme="dark"] .syntax-token[data-syntax-dark-bg="490202"] {
+  background: #490202;
+}
+
+html[data-theme="dark"] .syntax-token[data-syntax-dark-bg="5a1e02"] {
+  background: #5a1e02;
+}
+
+html[data-theme="dark"] .syntax-token[data-syntax-dark-bg="79c0ff"] {
+  background: #79c0ff;
+}
+
+html[data-theme="dark"] .syntax-token[data-syntax-dark-bg="ff7b72"] {
+  background: #ff7b72;
+}
+
+.code-block {
+  min-height: 300px;
 }
 
 .empty-state {

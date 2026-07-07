@@ -1,23 +1,31 @@
 import { useEffect, useMemo } from "preact/hooks";
 import { createPlaygroundActions, createPlaygroundState } from "../state/playground";
+import { CodeBlock } from "./CodeBlock";
 import type { SiteMessages } from "../i18n/messages";
 import type { SiteLocale } from "../i18n/config";
+import type { HighlightedSnippet } from "../lib/code-highlighting";
+import { GITHUB_URL, PACKAGE_NAME } from "../lib/site-constants";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { ProviderList } from "./ProviderList";
 import { RequestWorkbench } from "./RequestWorkbench";
 import { ResultsPanel } from "./ResultsPanel";
 import { ThemeToggle } from "./ThemeToggle";
 
-const PACKAGE_NAME = "openai-compatible-provider-registry";
-const GITHUB_URL = "https://github.com/Orchardxyz/openai-compatible-provider-registry";
-
 type PlaygroundAppProps = {
   locale: SiteLocale;
   messages: SiteMessages;
   basePath: string;
+  usageEsmSnippet: HighlightedSnippet;
+  usageCdnSnippet: HighlightedSnippet;
 };
 
-export function PlaygroundApp({ locale, messages, basePath }: PlaygroundAppProps) {
+export function PlaygroundApp({
+  locale,
+  messages,
+  basePath,
+  usageEsmSnippet,
+  usageCdnSnippet
+}: PlaygroundAppProps) {
   const state = useMemo(() => createPlaygroundState(messages), [messages]);
   const actions = useMemo(
     () => createPlaygroundActions(state, messages),
@@ -74,11 +82,11 @@ export function PlaygroundApp({ locale, messages, basePath }: PlaygroundAppProps
           <div class="usage-grid">
             <article class="usage-card">
               <p class="usage-card__label">{messages.usageCardEsmLabel}</p>
-              <pre class="usage-card__code">{`import { fetchModels } from "${PACKAGE_NAME}";\n\nconst result = await fetchModels("openai", { apiKey });\nconsole.log(result.models.map((model) => model.id));`}</pre>
+              <CodeBlock snippet={usageEsmSnippet} className="usage-card__code" />
             </article>
             <article class="usage-card">
               <p class="usage-card__label">{messages.usageCardCdnLabel}</p>
-              <pre class="usage-card__code">{`<script type="module">\n  import { fetchModels } from "https://esm.sh/${PACKAGE_NAME}";\n\n  const result = await fetchModels("openai", { apiKey });\n  console.log(result.models);\n</script>`}</pre>
+              <CodeBlock snippet={usageCdnSnippet} className="usage-card__code" />
             </article>
           </div>
         </div>
