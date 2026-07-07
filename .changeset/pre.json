@@ -1,6 +1,10 @@
 {
   "mode": "pre",
   "tag": "beta",
-  "initialVersions": {},
-  "changesets": []
+  "initialVersions": {
+    "openai-compatible-provider-registry": "0.0.0"
+  },
+  "changesets": [
+    "slow-bobcats-bathe"
+  ]
 }
