@@ -6,7 +6,6 @@ type ProviderListProps = {
   providerQuery: string;
   filteredProviders: ReadonlySignal<readonly ProviderRegistryEntry[]>;
   heading: string;
-  filterLabel: string;
   filterPlaceholder: string;
   docsAriaLabelPrefix: string;
   docsAriaLabelSuffix: string;
@@ -20,7 +19,6 @@ export function ProviderList({
   providerQuery,
   filteredProviders,
   heading,
-  filterLabel,
   filterPlaceholder,
   docsAriaLabelPrefix,
   docsAriaLabelSuffix,
@@ -35,7 +33,6 @@ export function ProviderList({
       </div>
 
       <label class="field">
-        <span class="field__label">{filterLabel}</span>
         <input
           class="field__input"
           type="search"
@@ -44,6 +41,7 @@ export function ProviderList({
             onProviderQueryChange((event.currentTarget as HTMLInputElement).value)
           }
           placeholder={filterPlaceholder}
+          aria-label={filterPlaceholder}
           autocomplete="off"
           autocapitalize="off"
           spellcheck={false}

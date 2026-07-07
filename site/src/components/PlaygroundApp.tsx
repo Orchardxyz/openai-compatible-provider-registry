@@ -77,7 +77,6 @@ export function PlaygroundApp({
         <div class="hero__usage">
           <div class="hero__usage-header">
             <p class="eyebrow">{messages.heroEyebrow}</p>
-            <p class="hero__usage-note">{messages.heroUsageNote}</p>
           </div>
           <div class="usage-grid">
             <article class="usage-card">
@@ -98,7 +97,6 @@ export function PlaygroundApp({
           providerQuery={state.providerQuery.value}
           filteredProviders={state.filteredProviders}
           heading={messages.supportedProviders}
-          filterLabel={messages.filterLabel}
           filterPlaceholder={messages.filterPlaceholder}
           docsAriaLabelPrefix={messages.docsAriaLabelPrefix}
           docsAriaLabelSuffix={messages.docsAriaLabelSuffix}

@@ -35,11 +35,9 @@ export type SiteMessages = {
   themeLight: string;
   themeDark: string;
   heroEyebrow: string;
-  heroUsageNote: string;
   usageCardEsmLabel: string;
   usageCardCdnLabel: string;
   supportedProviders: string;
-  filterLabel: string;
   filterPlaceholder: string;
   docsAriaLabelPrefix: string;
   docsAriaLabelSuffix: string;
@@ -79,11 +77,9 @@ const enMessages: SiteMessages = {
   themeLight: "Light",
   themeDark: "Dark",
   heroEyebrow: "Usage",
-  heroUsageNote: "Same API shape, two common runtime entry points.",
   usageCardEsmLabel: "Node / Browser ESM",
   usageCardCdnLabel: "HTML Script CDN",
   supportedProviders: "Supported Providers",
-  filterLabel: "Filter providers",
   filterPlaceholder: "Search by name, id, or base URL",
   docsAriaLabelPrefix: "Open docs for ",
   docsAriaLabelSuffix: "",
@@ -151,11 +147,9 @@ const zhCnMessages: SiteMessages = {
   themeLight: "浅色",
   themeDark: "深色",
   heroEyebrow: "用法",
-  heroUsageNote: "同一套 API，两种常见接入方式。",
   usageCardEsmLabel: "Node / 浏览器 ESM",
   usageCardCdnLabel: "HTML Script CDN",
   supportedProviders: "支持的服务商",
-  filterLabel: "筛选服务商",
   filterPlaceholder: "按名称、ID 或 Base URL 搜索",
   docsAriaLabelPrefix: "打开 ",
   docsAriaLabelSuffix: " 文档",
