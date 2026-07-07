@@ -18,6 +18,12 @@ Briefly describe the change in 1-2 sentences.
 
 - [ ] `README.md` updated if public behavior or supported providers changed
 - [ ] Provider metadata updated consistently if applicable
+- [ ] Added a `.changeset/*.md` file if the root package's public behavior changed
+
+## Changesets
+
+- [ ] No changeset needed because this PR only changes `site/`, docs, or maintenance notes
+- [ ] Changeset intentionally not included for another reason explained below
 
 ## Notes
 
