@@ -78,34 +78,36 @@ export function RequestWorkbench({
             onSubmit();
           }}
         >
-          <label class="field">
-            <span class="field__label">{providerIdLabel}</span>
-            <input
-              class="field__input field__input--mono"
-              value={providerId}
-              disabled
-            />
-          </label>
+          <div class="request-form__row">
+            <label class="field request-form__field request-form__field--provider-id">
+              <span class="field__label">{providerIdLabel}</span>
+              <input
+                class="field__input field__input--mono"
+                value={providerId}
+                disabled
+              />
+            </label>
 
-          <label class="field">
-            <span class="field__label">{baseUrlLabel}</span>
-            <input
-              class="field__input field__input--mono"
-              type="url"
-              value={baseUrl}
-              onInput={(event) =>
-                onBaseUrlChange((event.currentTarget as HTMLInputElement).value)
-              }
-              placeholder={baseUrlPlaceholder}
-              autocomplete="off"
-              autocapitalize="off"
-              spellcheck={false}
-            />
-          </label>
+            <label class="field request-form__field request-form__field--base-url">
+              <span class="field__label">{baseUrlLabel}</span>
+              <input
+                class="field__input field__input--mono"
+                type="url"
+                value={baseUrl}
+                onInput={(event) =>
+                  onBaseUrlChange((event.currentTarget as HTMLInputElement).value)
+                }
+                placeholder={baseUrlPlaceholder}
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck={false}
+              />
+            </label>
+          </div>
 
           <label class="field">
             <span class="field__label">{apiKeyLabel}</span>
-            <div class="key-input">
+            <div class="request-form__key-row">
               <input
                 class="field__input field__input--mono"
                 type={isKeyVisible ? "text" : "password"}
@@ -118,21 +120,26 @@ export function RequestWorkbench({
                 autocapitalize="off"
                 spellcheck={false}
               />
+
               <button
-                class="ghost-button"
+                class="ghost-button request-form__toggle"
                 type="button"
                 onClick={onToggleKeyVisibility}
               >
                 {isKeyVisible ? hideButton : revealButton}
               </button>
+
+              <button
+                class="primary-button request-form__submit"
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading ? fetchButtonLoading : fetchButton}
+              </button>
             </div>
           </label>
 
           <div class="security-note">{securityNote}</div>
-
-          <button class="primary-button" type="submit" disabled={isLoading}>
-            {isLoading ? fetchButtonLoading : fetchButton}
-          </button>
         </form>
 
         {children}

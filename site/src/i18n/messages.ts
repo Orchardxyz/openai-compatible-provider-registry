@@ -96,12 +96,12 @@ const enMessages: SiteMessages = {
   apiKeyPlaceholder: "Paste a revocable low-quota test key",
   securityNote:
     "Sent only to the selected provider over HTTPS. Never stored by this page.",
-  fetchButton: "Fetch Models",
-  fetchButtonLoading: "Fetching models...",
-  revealButton: "Reveal",
+  fetchButton: "Fetch List",
+  fetchButtonLoading: "Fetching list...",
+  revealButton: "Show",
   hideButton: "Hide",
   statusLabels: {
-    idle: "Ready for a manual request",
+    idle: "Awaiting request",
     loading: "Request in flight",
     success: "Models loaded",
     error: "Needs attention"
@@ -167,12 +167,12 @@ const zhCnMessages: SiteMessages = {
   apiKeyLabel: "临时 API key",
   apiKeyPlaceholder: "粘贴一个可随时撤销、额度较低的测试 key",
   securityNote: "仅会通过 HTTPS 发送给当前服务商，本页面不会存储你的 key。",
-  fetchButton: "获取模型列表",
-  fetchButtonLoading: "正在获取模型...",
-  revealButton: "显示 key",
-  hideButton: "隐藏 key",
+  fetchButton: "获取列表",
+  fetchButtonLoading: "正在获取列表...",
+  revealButton: "显示",
+  hideButton: "隐藏",
   statusLabels: {
-    idle: "等待手动发起请求",
+    idle: "等待发起请求",
     loading: "请求进行中",
     success: "模型已加载",
     error: "请求异常"
