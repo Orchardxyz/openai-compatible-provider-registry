@@ -1,6 +1,6 @@
 {
   "name": "openai-compatible-provider-registry",
-  "version": "0.0.0",
+  "version": "0.1.0-beta.0",
   "description": "Registry metadata and fetch helper for OpenAI-compatible provider model list APIs.",
   "license": "MIT",
   "type": "module",
