@@ -411,9 +411,7 @@ p {
   border-radius: 14px;
   background: var(--surface-soft);
   padding: 0;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: stretch;
+  position: relative;
   transition:
     transform 140ms ease,
     border-color 140ms ease,
@@ -433,6 +431,7 @@ p {
   border: 0;
   background: transparent;
   text-align: left;
+  width: 100%;
   padding: 15px 16px;
   display: grid;
   gap: 9px;
@@ -440,10 +439,11 @@ p {
 }
 
 .provider-card__title-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 10px;
-  justify-content: space-between;
+  padding-right: 42px;
 }
 
 .provider-card__meta {
@@ -455,6 +455,7 @@ p {
 .provider-card__title {
   font-weight: 600;
   font-size: 1rem;
+  min-width: 0;
 }
 
 .provider-card__badge {
@@ -473,19 +474,20 @@ p {
 }
 
 .provider-card__docs {
-  width: 54px;
-  display: inline-flex;
+  position: absolute;
+  top: 11px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  border-left: 1px solid var(--line);
   color: var(--ink-soft);
   text-decoration: none;
-  border-top-right-radius: 14px;
-  border-bottom-right-radius: 14px;
+  border-radius: 999px;
   transition:
     background 140ms ease,
     color 140ms ease;
-  overflow: hidden;
 }
 
 .provider-card__docs svg {
@@ -783,15 +785,11 @@ p {
   }
 
   .provider-card {
-    grid-template-columns: 1fr auto;
+    min-width: 0;
   }
 
   .provider-card__main {
     padding: 14px;
-  }
-
-  .provider-card__docs {
-    width: 48px;
   }
 
   .tab-row {
