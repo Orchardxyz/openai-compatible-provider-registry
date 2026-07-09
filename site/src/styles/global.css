@@ -817,12 +817,13 @@ p {
   overflow: auto;
 }
 
-.usage-card .astro-code span {
-  color: var(--shiki-light, inherit);
+html[data-theme="dark"] .usage-card .astro-code {
+  background-color: var(--shiki-dark-bg, transparent) !important;
+  color: var(--shiki-dark, var(--ink)) !important;
 }
 
 html[data-theme="dark"] .usage-card .astro-code span {
-  color: var(--shiki-dark, inherit);
+  color: var(--shiki-dark, inherit) !important;
 }
 
 .json-token--key {
