@@ -25,6 +25,13 @@
   --shadow: 0 12px 30px rgba(19, 19, 19, 0.06);
   --font-body: "IBM Plex Sans", "Avenir Next", "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
+
+  --json-key: #6f42c1;
+  --json-string: #0a7d3c;
+  --json-number: #b359b8;
+  --json-boolean: #b359b8;
+  --json-null: #b359b8;
+  --json-punctuation: var(--ink-soft);
 }
 
 html[data-theme="dark"] {
@@ -47,6 +54,13 @@ html[data-theme="dark"] {
   --success: #3ab985;
   --error: #ef8f75;
   --shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+
+  --json-key: #c792ea;
+  --json-string: #7ee787;
+  --json-number: #f0883e;
+  --json-boolean: #f0883e;
+  --json-null: #f0883e;
+  --json-punctuation: var(--ink-soft);
 }
 
 * {
@@ -692,28 +706,6 @@ p {
   min-width: 100%;
 }
 
-.syntax-line {
-  display: block;
-  min-height: 1.5em;
-}
-
-.syntax-token {
-  color: inherit;
-}
-
-.syntax-token--italic {
-  font-style: italic;
-}
-
-.syntax-token--bold {
-  font-weight: 500;
-}
-
-.syntax-token--underline {
-  text-decoration: underline;
-  text-underline-offset: 0.14em;
-}
-
 .usage-card .syntax-block {
   padding: 0;
   border: 0;
@@ -723,138 +715,6 @@ p {
 
 .panel--results .syntax-block {
   min-height: 300px;
-}
-
-html[data-theme="light"] .syntax-token[data-syntax-light="0550ae"] {
-  color: #0550ae;
-}
-
-html[data-theme="light"] .syntax-token[data-syntax-light="0a3069"] {
-  color: #0a3069;
-}
-
-html[data-theme="light"] .syntax-token[data-syntax-light="116329"] {
-  color: #116329;
-}
-
-html[data-theme="light"] .syntax-token[data-syntax-light="1f2328"] {
-  color: #1f2328;
-}
-
-html[data-theme="light"] .syntax-token[data-syntax-light="57606a"] {
-  color: #57606a;
-}
-
-html[data-theme="light"] .syntax-token[data-syntax-light="6e7781"] {
-  color: #6e7781;
-}
-
-html[data-theme="light"] .syntax-token[data-syntax-light="82071e"] {
-  color: #82071e;
-}
-
-html[data-theme="light"] .syntax-token[data-syntax-light="8250df"] {
-  color: #8250df;
-}
-
-html[data-theme="light"] .syntax-token[data-syntax-light="953800"] {
-  color: #953800;
-}
-
-html[data-theme="light"] .syntax-token[data-syntax-light="cf222e"] {
-  color: #cf222e;
-}
-
-html[data-theme="light"] .syntax-token[data-syntax-light="eaeef2"] {
-  color: #eaeef2;
-}
-
-html[data-theme="light"] .syntax-token[data-syntax-light="f6f8fa"] {
-  color: #f6f8fa;
-}
-
-html[data-theme="light"] .syntax-token[data-syntax-light-bg="0550ae"] {
-  background: #0550ae;
-}
-
-html[data-theme="light"] .syntax-token[data-syntax-light-bg="cf222e"] {
-  background: #cf222e;
-}
-
-html[data-theme="light"] .syntax-token[data-syntax-light-bg="dafbe1"] {
-  background: #dafbe1;
-}
-
-html[data-theme="light"] .syntax-token[data-syntax-light-bg="ffd8b5"] {
-  background: #ffd8b5;
-}
-
-html[data-theme="light"] .syntax-token[data-syntax-light-bg="ffebe9"] {
-  background: #ffebe9;
-}
-
-html[data-theme="dark"] .syntax-token[data-syntax-dark="161b22"] {
-  color: #161b22;
-}
-
-html[data-theme="dark"] .syntax-token[data-syntax-dark="79c0ff"] {
-  color: #79c0ff;
-}
-
-html[data-theme="dark"] .syntax-token[data-syntax-dark="7ee787"] {
-  color: #7ee787;
-}
-
-html[data-theme="dark"] .syntax-token[data-syntax-dark="8b949e"] {
-  color: #8b949e;
-}
-
-html[data-theme="dark"] .syntax-token[data-syntax-dark="a5d6ff"] {
-  color: #a5d6ff;
-}
-
-html[data-theme="dark"] .syntax-token[data-syntax-dark="d2a8ff"] {
-  color: #d2a8ff;
-}
-
-html[data-theme="dark"] .syntax-token[data-syntax-dark="e6edf3"] {
-  color: #e6edf3;
-}
-
-html[data-theme="dark"] .syntax-token[data-syntax-dark="f0f6fc"] {
-  color: #f0f6fc;
-}
-
-html[data-theme="dark"] .syntax-token[data-syntax-dark="ff7b72"] {
-  color: #ff7b72;
-}
-
-html[data-theme="dark"] .syntax-token[data-syntax-dark="ffa198"] {
-  color: #ffa198;
-}
-
-html[data-theme="dark"] .syntax-token[data-syntax-dark="ffa657"] {
-  color: #ffa657;
-}
-
-html[data-theme="dark"] .syntax-token[data-syntax-dark-bg="04260f"] {
-  background: #04260f;
-}
-
-html[data-theme="dark"] .syntax-token[data-syntax-dark-bg="490202"] {
-  background: #490202;
-}
-
-html[data-theme="dark"] .syntax-token[data-syntax-dark-bg="5a1e02"] {
-  background: #5a1e02;
-}
-
-html[data-theme="dark"] .syntax-token[data-syntax-dark-bg="79c0ff"] {
-  background: #79c0ff;
-}
-
-html[data-theme="dark"] .syntax-token[data-syntax-dark-bg="ff7b72"] {
-  background: #ff7b72;
 }
 
 .code-block {
@@ -942,4 +802,45 @@ html[data-theme="dark"] .syntax-token[data-syntax-dark-bg="ff7b72"] {
     backdrop-filter: blur(22px);
     padding-bottom: 8px;
   }
+}
+
+.usage-card .astro-code {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--ink);
+  overflow: auto;
+}
+
+.usage-card .astro-code span {
+  color: var(--shiki-light, inherit);
+}
+
+html[data-theme="dark"] .usage-card .astro-code span {
+  color: var(--shiki-dark, inherit);
+}
+
+.json-token--key {
+  color: var(--json-key);
+}
+
+.json-token--string {
+  color: var(--json-string);
+}
+
+.json-token--number,
+.json-token--boolean,
+.json-token--null {
+  color: var(--json-number);
+}
+
+.json-token--punctuation {
+  color: var(--json-punctuation);
 }

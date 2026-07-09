@@ -1,0 +1,44 @@
+---
+import { Code } from "astro:components";
+import { USAGE_CDN_SNIPPET, USAGE_ESM_SNIPPET } from "../lib/usage-snippets";
+
+interface Props {
+  eyebrow: string;
+  usageCardEsmLabel: string;
+  usageCardCdnLabel: string;
+}
+
+const { eyebrow, usageCardEsmLabel, usageCardCdnLabel } = Astro.props;
+---
+
+<section class="hero">
+  <div class="hero__usage">
+    <div class="hero__usage-header">
+      <p class="eyebrow">{eyebrow}</p>
+    </div>
+    <div class="usage-grid">
+      <article class="usage-card">
+        <p class="usage-card__label">{usageCardEsmLabel}</p>
+        <Code
+          code={USAGE_ESM_SNIPPET}
+          lang="ts"
+          theme="github-light"
+          themes={{ light: "github-light", dark: "github-dark" }}
+          defaultColor="light"
+          wrap={true}
+        />
+      </article>
+      <article class="usage-card">
+        <p class="usage-card__label">{usageCardCdnLabel}</p>
+        <Code
+          code={USAGE_CDN_SNIPPET}
+          lang="html"
+          theme="github-light"
+          themes={{ light: "github-light", dark: "github-dark" }}
+          defaultColor="light"
+          wrap={true}
+        />
+      </article>
+    </div>
+  </div>
+</section>
