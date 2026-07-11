@@ -2,6 +2,21 @@
   "name": "openai-compatible-provider-registry",
   "version": "0.1.0-beta.0",
   "description": "Registry metadata and fetch helper for OpenAI-compatible provider model list APIs.",
+  "keywords": [
+    "openai",
+    "openai-compatible",
+    "provider-registry",
+    "llm",
+    "ai",
+    "models",
+    "model-list",
+    "typescript",
+    "fetch"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Orchardxyz/openai-compatible-provider-registry.git"
+  },
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.cjs",
