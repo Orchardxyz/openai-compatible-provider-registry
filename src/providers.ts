@@ -25,7 +25,7 @@ export const PROVIDERS = [
   {
     id: PROVIDER_IDS.GROQ,
     displayName: "Groq",
-    baseUrl: "https://api.groq.com/openai",
+    baseUrl: "https://api.groq.com/openai/v1/",
     modelsPath: "models",
     docsUrl: "https://console.groq.com/docs/openai"
   },
@@ -46,7 +46,7 @@ export const PROVIDERS = [
   {
     id: PROVIDER_IDS.MISTRAL,
     displayName: "Mistral",
-    baseUrl: "https://api.mistral.ai",
+    baseUrl: "https://api.mistral.ai/v1/",
     modelsPath: "models",
     docsUrl: "https://docs.mistral.ai/getting-started/models/models_overview"
   },
@@ -60,21 +60,21 @@ export const PROVIDERS = [
   {
     id: PROVIDER_IDS.MOONSHOT,
     displayName: "Moonshot AI",
-    baseUrl: "https://api.moonshot.cn",
+    baseUrl: "https://api.moonshot.cn/v1/",
     modelsPath: "models",
     docsUrl: "https://platform.kimi.com/docs/api/list-models"
   },
   {
     id: PROVIDER_IDS.OPENAI,
     displayName: "OpenAI",
-    baseUrl: "https://api.openai.com",
+    baseUrl: "https://api.openai.com/v1/",
     modelsPath: "models",
     docsUrl: "https://platform.openai.com/docs/api-reference/models/list"
   },
   {
     id: PROVIDER_IDS.SILICON,
     displayName: "Silicon",
-    baseUrl: "https://api.siliconflow.cn",
+    baseUrl: "https://api.siliconflow.cn/v1/",
     modelsPath: "models",
     docsUrl: "https://docs.siliconflow.cn/"
   },
