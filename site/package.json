@@ -17,5 +17,6 @@
     "astro": "^5.13.0",
     "preact": "^10.26.0",
     "typescript": "^5.9.0"
-  }
+  },
+  "version": null
 }
