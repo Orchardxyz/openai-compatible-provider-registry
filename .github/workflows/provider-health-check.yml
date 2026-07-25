@@ -33,3 +33,11 @@ jobs:
 
       - name: Check provider health
         run: pnpm health:check
+
+      - name: Upload health report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: provider-health-report
+          path: provider-health.json
+          if-no-files-found: error

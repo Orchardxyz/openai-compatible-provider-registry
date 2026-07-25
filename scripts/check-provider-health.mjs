@@ -3,9 +3,11 @@
 import { performance } from "node:perf_hooks";
 import process from "node:process";
 import { URL } from "node:url";
+import { writeFile } from "node:fs/promises";
 import { PROVIDERS } from "../dist/index.js";
 
 const REQUEST_TIMEOUT_MS = 10_000;
+const REPORT_PATH = "provider-health.json";
 const HEALTHY_STATUSES = new Set([200, 401, 403]);
 const WARNING_STATUSES = new Set([429]);
 
@@ -14,6 +16,7 @@ const statusCounts = {
   warning: 0,
   unhealthy: 0,
 };
+const results = [];
 
 writeLine("Provider health check");
 writeLine("Build output must exist before running this script.");
@@ -21,6 +24,7 @@ writeLine("");
 
 for (const provider of PROVIDERS) {
   const result = await checkProvider(provider);
+  results.push(result);
   statusCounts[result.status] += 1;
   writeLine(formatResult(result));
 }
@@ -29,6 +33,9 @@ writeLine("");
 writeLine(
   `Summary: ${statusCounts.healthy} healthy, ${statusCounts.warning} warning, ${statusCounts.unhealthy} unhealthy`,
 );
+
+await writeJsonReport(results, statusCounts);
+await writeStepSummary(results, statusCounts);
 
 if (statusCounts.unhealthy > 0) {
   process.exitCode = 1;
@@ -126,6 +133,44 @@ function formatResult(result) {
     result.detail.padEnd(24),
     result.url,
   ].join("  ");
+}
+
+async function writeJsonReport(results, summary) {
+  const report = {
+    generatedAt: new Date().toISOString(),
+    summary,
+    results,
+  };
+
+  await writeFile(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
+}
+
+async function writeStepSummary(results, summary) {
+  const summaryPath = process.env.GITHUB_STEP_SUMMARY;
+
+  if (!summaryPath) {
+    return;
+  }
+
+  const lines = [
+    "## Provider Health Check",
+    "",
+    `Summary: **${summary.healthy} healthy**, **${summary.warning} warning**, **${summary.unhealthy} unhealthy**`,
+    "",
+    "| Status | Provider | Elapsed | Detail | URL |",
+    "| --- | --- | ---: | --- | --- |",
+    ...results.map(
+      (result) =>
+        `| ${result.status} | ${result.id} | ${result.elapsedMs}ms | ${escapeMarkdownTable(result.detail)} | ${result.url} |`,
+    ),
+    "",
+  ];
+
+  await writeFile(summaryPath, `${lines.join("\n")}\n`, { flag: "a" });
+}
+
+function escapeMarkdownTable(value) {
+  return value.replaceAll("|", "\\|").replaceAll("\n", " ");
 }
 
 function writeLine(value) {
