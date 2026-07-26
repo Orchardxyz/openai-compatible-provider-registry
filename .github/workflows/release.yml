@@ -9,6 +9,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  id-token: write
 
 concurrency:
   group: version-package
@@ -29,8 +30,9 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: pnpm
+          registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -38,10 +40,11 @@ jobs:
       - name: Validate release candidate
         run: pnpm release:check
 
-      - name: Create or update version PR
+      - name: Create version PR or publish package
         uses: changesets/action@v1
         with:
           version: pnpm changeset:version
+          publish: pnpm exec changeset publish
           commit: "chore: version packages"
           title: "chore: version packages"
         env:

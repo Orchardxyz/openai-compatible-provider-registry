@@ -78,8 +78,11 @@ Maintainers use the following scripts:
 - `pnpm changeset:version`
 - `pnpm release:check`
 
-Releases are created through a GitHub version PR on `main`. Publishing to npm
-remains a manual maintainer step.
+Releases are created through a GitHub version PR on `main`. After maintainers
+merge the version PR, the release workflow publishes the root package to npm and
+creates the matching GitHub Release. The manual publish workflow is only for
+maintainer backfills when the normal release workflow fails after the version PR
+has merged.
 
 For prerelease cycles, maintainers can use Changesets prerelease mode:
 
