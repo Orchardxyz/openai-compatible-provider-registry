@@ -9,6 +9,13 @@ export const PROVIDERS = [
     docsUrl: "https://help.aliyun.com/zh/model-studio/get-api-key"
   },
   {
+    id: PROVIDER_IDS.CLOUDGPU,
+    displayName: "CloudGPU",
+    baseUrl: "https://cloudgpu.app/v1/",
+    modelsPath: "models",
+    docsUrl: "https://cloudgpu.app/api/docs"
+  },
+  {
     id: PROVIDER_IDS.DEEPSEEK,
     displayName: "DeepSeek",
     baseUrl: "https://api.deepseek.com",

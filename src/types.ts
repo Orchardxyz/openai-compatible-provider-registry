@@ -1,4 +1,5 @@
 export const PROVIDER_IDS = {
+  CLOUDGPU: "cloudgpu",
   OPENAI: "openai",
   DEEPSEEK: "deepseek",
   SILICON: "silicon",
